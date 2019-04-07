@@ -1,10 +1,13 @@
 # ClipboardWatcher
 Watches your clipboard and saves the data allowing you to look back upon your copies over time
 
-![](https://i.imgur.com/Z8zWm65.png)
+--------------------
+
 
 # Text
 This is the default view when starting up ClipboardWatcher. It shows every line of text you copied (right click copy on something, or ctrl + C)
+![](https://i.imgur.com/Hl9ej8p.png)
+
 
 You can delete records by selecting one or multiple and pressing the DEL key on your keyboard
 # Images
@@ -27,7 +30,7 @@ Select the **Image history** button (Default) to look back at the images you hav
 
 Select the **Text history** Button to look back at the text you have copied
 
-Depending on how long you have been using ClipboardWatcher, you can take a look through time
+Depending on how long you have been using ClipboardWatcher, you can take a look back through time
 ![](https://i.imgur.com/QXzRKCY.png)
 
 For copied images, simply select the file name in the right hand panel after having selected a date
