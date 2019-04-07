@@ -1,1 +1,2 @@
 ﻿(7-4-2019) V1.0.0 - Initial release of re-written ClipboardWatcher
+(7-4-2019) V1.0.1 - Small first use fixes & Error log writing

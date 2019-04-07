@@ -52,7 +52,6 @@ namespace ClipboardWatcher
         //All uncaught exceptions will go here instead. We will replace the default windows popup with our own custom one and filter out what kind of exception is being thrown
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-
             ErrorPrompt p = new ErrorPrompt(e.Exception); p.Show();
 
             if (e.Exception is SettingsException)

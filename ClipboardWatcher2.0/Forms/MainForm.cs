@@ -43,7 +43,7 @@ namespace ClipboardWatcher
             _clipboardViewerNext = SetClipboardViewer(this.Handle);      // Adds our form to the chain
             AppDomain.CurrentDomain.SetData("DataDirectory", IOVariables.databaseFile);
 
-            Directory.CreateDirectory(IOVariables.rootFolder);
+            Directory.CreateDirectory(IOVariables.clipboardWatcherLocalFolder);
             BLIO.CreateDatabaseIfNotExist();
 
             //Create folders if they dont exist

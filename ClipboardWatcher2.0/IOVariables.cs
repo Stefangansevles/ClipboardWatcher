@@ -33,12 +33,7 @@ namespace ClipboardWatcher
         /// <summary>
         /// Contains the startup folder path. 
         /// </summary>
-        public static readonly string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-
-        /// <summary>
-        /// Contains the path to the root folder of RemindMe
-        /// </summary>
-        public static readonly string rootFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\ClipboardWatcher\";
+        public static readonly string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);        
 
         /// <summary>
         /// Returns the version of ClipboardWatcher. Read from the assembly
