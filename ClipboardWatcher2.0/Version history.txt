@@ -1,12 +1,1 @@
-﻿(xx-xx-xx) V1.0.0 - Initial release of re-written ClipboardWatcher
-
-
-
-//Todo:
-shift-click multiselect
-del key on image deletes
-first-time uses, implement default values in db, create db if not exist, etc etc etc
-illegal characters on image rename, ? : < > etc
-
-         [img]
-	   None Yet!
+﻿(7-4-2019) V1.0.0 - Initial release of re-written ClipboardWatcher

@@ -485,7 +485,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -816,7 +816,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ClipboardWatcher"
         "ProductCode" = "8:{7ADC7783-95B0-4736-8A1C-D03DCB8B1A19}"
-        "PackageCode" = "8:{2EB5CA05-9BC9-4098-AB2C-E280A06BE202}"
+        "PackageCode" = "8:{F265EB9A-BFD1-4CD8-83D2-B6B4744B3B05}"
         "UpgradeCode" = "8:{7E4EABC2-DDCA-44BE-A83A-383BB8B854AC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
