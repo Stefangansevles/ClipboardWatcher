@@ -55,6 +55,10 @@ namespace ClipboardWatcher
 
             Directory.CreateDirectory(IOVariables.rootFolder);
             BLIO.CreateDatabaseIfNotExist();
+
+            //Create folders if they dont exist
+            Directory.CreateDirectory(BLSettings.Settings.SaveImagePath);            
+            Directory.CreateDirectory(BLSettings.Settings.SaveTextPath);
         }
 
         /// <summary>
