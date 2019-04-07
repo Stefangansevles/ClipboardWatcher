@@ -41,6 +41,14 @@ namespace ClipboardWatcher
         {
             InitializeComponent();
             _clipboardViewerNext = SetClipboardViewer(this.Handle);      // Adds our form to the chain
+            AppDomain.CurrentDomain.SetData("DataDirectory", IOVariables.databaseFile);
+
+            Directory.CreateDirectory(IOVariables.rootFolder);
+            BLIO.CreateDatabaseIfNotExist();
+
+            //Create folders if they dont exist
+            Directory.CreateDirectory(BLSettings.Settings.SaveImagePath);
+            Directory.CreateDirectory(BLSettings.Settings.SaveTextPath);
 
             //------Content usercontrols------\\
             ucText = new UCText();
@@ -49,16 +57,10 @@ namespace ClipboardWatcher
             ucSettings = new UCSettings();
 
             //Set the data directory of our .db file
-            AppDomain.CurrentDomain.SetData("DataDirectory", IOVariables.databaseFile);
+            
 
             TrayContextMenuStrip.Renderer = new ToolStripMenuRenderer();
-
-            Directory.CreateDirectory(IOVariables.rootFolder);
-            BLIO.CreateDatabaseIfNotExist();
-
-            //Create folders if they dont exist
-            Directory.CreateDirectory(BLSettings.Settings.SaveImagePath);            
-            Directory.CreateDirectory(BLSettings.Settings.SaveTextPath);
+            this.Opacity = 0;        
         }
 
         /// <summary>
@@ -101,8 +103,7 @@ namespace ClipboardWatcher
             this.pnlContents.Controls.Add(ucText);            
             //hide the form on startup
             BeginInvoke(new MethodInvoker(delegate
-            {
-                this.Opacity = 0;
+            {                
                 Hide();
             }));
             
