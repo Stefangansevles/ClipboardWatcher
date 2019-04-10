@@ -22,6 +22,7 @@ Options:
 * **Delete**  | Deletes the image from ClipboardWatcher and from your hard drive
 
 The "Open containing folder..." Opens the folder where the image is saved in windows explorer
+
 **Double click an image to open them in windows photo viewer**
 
 # History
