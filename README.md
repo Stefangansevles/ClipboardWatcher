@@ -22,6 +22,7 @@ Options:
 * **Delete**  | Deletes the image from ClipboardWatcher and from your hard drive
 
 The "Open containing folder..." Opens the folder where the image is saved in windows explorer
+**Double click an image to open them in windows photo viewer**
 
 # History
 Here, you can look back at your history of copies over time. Select a year/month/day and you will be able to look back on the images or text you have copied over time
