@@ -113,6 +113,7 @@ namespace ClipboardWatcher
 
             lblVersion.Text = "Version " + IOVariables.ClipboardWatcherVersion;
 
+            //Todo:  go through image folders, empty? delete
         }
 
         private void btnImages_Click(object sender, EventArgs e)

@@ -23,6 +23,9 @@ namespace ClipboardWatcher
         //Contains the path to the selected year/month/day
         private string imageString = "";
 
+        //Image files from history folders
+        private List<string> imageFiles = new List<string>();
+
         public UCHistory()
         {
             InitializeComponent();
@@ -31,6 +34,19 @@ namespace ClipboardWatcher
             new Thread(() =>
             {
                 LoadComboboxes();
+            }
+            ).Start();
+
+            //Go through all of the images in the entire history of ClipboardWatcher and add them to the list
+            new Thread(() =>
+            {
+                foreach(string dir in Directory.GetDirectories(BLSettings.Settings.SaveImagePath, "*", SearchOption.AllDirectories))
+                {
+                    foreach(string file in Directory.GetFiles(dir))
+                    {
+                        imageFiles.Add(file);
+                    }
+                }                
             }
             ).Start();
         }
@@ -45,6 +61,18 @@ namespace ClipboardWatcher
             cbFilterYear.Text = "Year";
             cbFilterMonth.Text = "Month";
             cbFilterDay.Text = "Day";
+
+
+            Label imgLabel = new Label();
+            imgLabel.Image = Properties.Resources.SearchIcon2;
+            imgLabel.AutoSize = false;
+            imgLabel.Size = imgLabel.Image.Size;
+            imgLabel.ImageAlign = ContentAlignment.MiddleCenter;
+            imgLabel.Text = "";
+            imgLabel.BackColor = Color.Transparent;
+            imgLabel.Parent = tbSearch;
+            // pick a location where it won't get in the way too much
+            imgLabel.Location = new Point(tbSearch.ClientSize.Width - imgLabel.Image.Width, 0);
 
         }
 
@@ -75,6 +103,10 @@ namespace ClipboardWatcher
             cbFilterMonth.Text = "Month";
             cbFilterMonth.ForeColor = Color.Gray;
 
+            cbFilterDay.Items.Clear();
+            cbFilterDay.Text = "Month";
+            cbFilterDay.ForeColor = Color.Gray;
+
             //Start with resetting the color to black
             cbFilterYear.ForeColor = Color.Black;
             //Look for month folders inside folder\\year\\
@@ -92,6 +124,8 @@ namespace ClipboardWatcher
             if (btnTextHistory.selected)
                 return;
 
+            tbSearch.Visible = false;
+
             //Hide the right panel containing the image files. With text you just load the copied text that day.
             if (lvImageFiles.Visible)
             {
@@ -105,6 +139,8 @@ namespace ClipboardWatcher
         {
             if (btnImageHistory.selected)
                 return;
+
+            tbSearch.Visible = true;
 
             //Don't need to reset everything if the user pressed the image button when it's already on images
             if (!lvImageFiles.Visible)
@@ -171,12 +207,17 @@ namespace ClipboardWatcher
         {
             cbFilterDay.ForeColor = Color.Black;
             lvImageFiles.Items.Clear();
+            string imagePath = BLSettings.Settings.SaveImagePath + "\\" + cbFilterYear.SelectedItem.ToString() + "\\" + cbFilterMonth.SelectedItem.ToString() + "\\";
+
             if (lvImageFiles.Visible)
             {
-                foreach (string file in FSManager.Files.GetFileNamesInFolder(BLSettings.Settings.SaveImagePath + "\\" + cbFilterYear.SelectedItem.ToString() + "\\" + cbFilterMonth.SelectedItem.ToString() + "\\" + cbFilterDay.SelectedItem.ToString()))
-                    lvImageFiles.Items.Add(Path.GetFileName(file));
+                foreach (string file in FSManager.Files.GetFileNamesInFolder(imagePath + cbFilterDay.SelectedItem.ToString()))
+                    lvImageFiles.Items.Add(file, imagePath+ cbFilterDay.SelectedItem.ToString()+"\\"+file);
+                
+                imageString = imagePath + "\\" + cbFilterDay.SelectedItem.ToString() + "\\";
 
-                imageString = BLSettings.Settings.SaveImagePath + "\\" + cbFilterYear.SelectedItem.ToString() + "\\" + cbFilterMonth.SelectedItem.ToString() + "\\" + cbFilterDay.SelectedItem.ToString() + "\\";
+                tbSearch.ForeColor = Color.Gray;
+                tbSearch.Text = "Search Images...";
             }
             else
             {
@@ -209,21 +250,23 @@ namespace ClipboardWatcher
         {
             if (lvImageFiles.SelectedItems.Count > 0)
             {
-                if (!File.Exists(imageString + lvImageFiles.SelectedItems[0].Text))
+                if (!File.Exists(lvImageFiles.SelectedItems[0].ImageKey))
                     return;
 
-                Image picture = Image.FromFile(imageString + lvImageFiles.SelectedItems[0].Text);
+                Image picture = Image.FromFile(lvImageFiles.SelectedItems[0].ImageKey);
 
                 Image oldImage = pnlImages.BackgroundImage;
                 if (picture.Size.Width > pnlImages.Size.Width || picture.Size.Height > pnlImages.Size.Height)
                 {
-                    pnlImages.BackgroundImageLayout = ImageLayout.Stretch;
                     pnlImages.BackgroundImage = picture;
+                    pnlImages.BackgroundImageLayout = ImageLayout.Stretch;
+                    
                 }
                 else
                 {
+                    pnlImages.BackgroundImage = picture;
                     pnlImages.BackgroundImageLayout = ImageLayout.None;
-                    pnlImages.BackgroundImage = picture;                    
+                    
                 }
 
                 if(oldImage != null)
@@ -235,7 +278,7 @@ namespace ClipboardWatcher
         {
             
             if (lvImageFiles.SelectedItems.Count > 0)
-                Process.Start(imageString + lvImageFiles.SelectedItems[0].Text);
+                Process.Start(lvImageFiles.SelectedItems[0].ImageKey);
         }
 
         private void lvImageFiles_MouseClick(object sender, MouseEventArgs e)
@@ -249,7 +292,7 @@ namespace ClipboardWatcher
 
         private void openContainingFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(imageString);
+            Process.Start(Path.GetDirectoryName(lvImageFiles.SelectedItems[0].ImageKey));
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,9 +308,9 @@ namespace ClipboardWatcher
 
                 foreach (ListViewItem img in lvImageFiles.SelectedItems)
                 {
-                    if (File.Exists(imageString + img.Text)) //imageString + img = path to the image.png
+                    if (File.Exists(img.ImageKey)) //imageString + img = path to the image.png
                     {
-                        File.Delete(imageString + img.Text);
+                        File.Delete(img.ImageKey);
                     }
                 }
 
@@ -282,6 +325,20 @@ namespace ClipboardWatcher
                 DeleteImages();
         }
 
+        private List<string> FilterHistoryImages(string image)
+        {
+            List<string> returnList = new List<string>();
+
+            foreach(string file in imageFiles)
+            {
+                if (Path.GetFileName(file).Contains(image))
+                {
+                    returnList.Add(file);
+                }
+            }
+
+            return returnList;
+        }
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvImageFiles.SelectedItems.Count > 0)
@@ -327,6 +384,7 @@ namespace ClipboardWatcher
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process paint = new Process();
+            pnlImages.BackgroundImage.Dispose();
             foreach (ListViewItem itm in lvImageFiles.SelectedItems)
             {
                 string path = imageString + itm.Text;
@@ -357,6 +415,48 @@ namespace ClipboardWatcher
 
                 BLFormLogic.CopyListviewTextToClipboard(lvCopiedText);
             }
+        }
+
+   
+
+        private void tbSearch_Leave(object sender, EventArgs e)
+        {
+            if (tbSearch.Text == "")
+            {
+                tbSearch.ForeColor = Color.Gray;
+                tbSearch.Text = "Search Images...";
+            }
+            else
+                tbSearch.ForeColor = Color.Black;
+                
+        }
+
+        private void tbSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (tbSearch.Text != "")
+                    lvImageFiles.Items.Clear();
+
+                foreach(string file in FilterHistoryImages(tbSearch.Text))
+                    lvImageFiles.Items.Add(Path.GetFileName(file), file);
+
+                //Don't allow spaces in thetextbox
+                e.SuppressKeyPress = true;
+            }
+
+            if(e.KeyData == (Keys.Control | Keys.A))
+                tbSearch.SelectAll();
+
+            if (tbSearch.Text != "" && tbSearch.ForeColor != Color.Black)
+                tbSearch.ForeColor = Color.Black;
+
+        }
+
+        private void tbSearch_Enter(object sender, EventArgs e)
+        {
+            if (tbSearch.Text == "Search Images...")
+                tbSearch.Text = "";
         }
     }
 }

@@ -30,9 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCHistory));
-            this.lvImageFiles = new System.Windows.Forms.ListView();
-            this.chImageFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlDateFilter = new System.Windows.Forms.Panel();
+            this.tbSearch = new System.Windows.Forms.TextBox();
             this.cbFilterDay = new System.Windows.Forms.ComboBox();
             this.cbFilterMonth = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,38 +49,17 @@
             this.lvCopiedText = new System.Windows.Forms.ListView();
             this.chText = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvImageFiles = new System.Windows.Forms.ListView();
+            this.chImageFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlDateFilter.SuspendLayout();
             this.pnlFooter.SuspendLayout();
             this.imageContextMenuStrip.SuspendLayout();
             this.pnlText.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lvImageFiles
-            // 
-            this.lvImageFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chImageFile});
-            this.lvImageFiles.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lvImageFiles.Font = new System.Drawing.Font("Century Gothic", 8F);
-            this.lvImageFiles.FullRowSelect = true;
-            this.lvImageFiles.Location = new System.Drawing.Point(582, 0);
-            this.lvImageFiles.Name = "lvImageFiles";
-            this.lvImageFiles.Size = new System.Drawing.Size(122, 442);
-            this.lvImageFiles.TabIndex = 1;
-            this.lvImageFiles.UseCompatibleStateImageBehavior = false;
-            this.lvImageFiles.View = System.Windows.Forms.View.Details;
-            this.lvImageFiles.SelectedIndexChanged += new System.EventHandler(this.lvImageFiles_SelectedIndexChanged);
-            this.lvImageFiles.DoubleClick += new System.EventHandler(this.lvImageFiles_DoubleClick);
-            this.lvImageFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvImageFiles_KeyDown);
-            this.lvImageFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvImageFiles_KeyUp);
-            this.lvImageFiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvImageFiles_MouseClick);
-            // 
-            // chImageFile
-            // 
-            this.chImageFile.Text = "Image";
-            this.chImageFile.Width = 105;
-            // 
             // pnlDateFilter
             // 
+            this.pnlDateFilter.Controls.Add(this.tbSearch);
             this.pnlDateFilter.Controls.Add(this.cbFilterDay);
             this.pnlDateFilter.Controls.Add(this.cbFilterMonth);
             this.pnlDateFilter.Controls.Add(this.label1);
@@ -89,8 +67,22 @@
             this.pnlDateFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlDateFilter.Location = new System.Drawing.Point(0, 0);
             this.pnlDateFilter.Name = "pnlDateFilter";
-            this.pnlDateFilter.Size = new System.Drawing.Size(582, 57);
+            this.pnlDateFilter.Size = new System.Drawing.Size(560, 57);
             this.pnlDateFilter.TabIndex = 2;
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Font = new System.Drawing.Font("Century Gothic", 8F);
+            this.tbSearch.ForeColor = System.Drawing.Color.Gray;
+            this.tbSearch.Location = new System.Drawing.Point(336, 24);
+            this.tbSearch.Multiline = true;
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.Size = new System.Drawing.Size(152, 24);
+            this.tbSearch.TabIndex = 5;
+            this.tbSearch.Text = "Search Images...";
+            this.tbSearch.Enter += new System.EventHandler(this.tbSearch_Enter);
+            this.tbSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyDown);
+            this.tbSearch.Leave += new System.EventHandler(this.tbSearch_Leave);
             // 
             // cbFilterDay
             // 
@@ -140,7 +132,7 @@
             this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFooter.Location = new System.Drawing.Point(0, 397);
             this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(582, 45);
+            this.pnlFooter.Size = new System.Drawing.Size(560, 45);
             this.pnlFooter.TabIndex = 3;
             // 
             // btnImageHistory
@@ -220,7 +212,7 @@
             this.pnlImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlImages.Location = new System.Drawing.Point(0, 57);
             this.pnlImages.Name = "pnlImages";
-            this.pnlImages.Size = new System.Drawing.Size(582, 340);
+            this.pnlImages.Size = new System.Drawing.Size(560, 340);
             this.pnlImages.TabIndex = 4;
             // 
             // imageContextMenuStrip
@@ -268,7 +260,7 @@
             this.pnlText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlText.Location = new System.Drawing.Point(0, 57);
             this.pnlText.Name = "pnlText";
-            this.pnlText.Size = new System.Drawing.Size(582, 340);
+            this.pnlText.Size = new System.Drawing.Size(560, 340);
             this.pnlText.TabIndex = 5;
             this.pnlText.Visible = false;
             // 
@@ -282,7 +274,7 @@
             this.lvCopiedText.FullRowSelect = true;
             this.lvCopiedText.Location = new System.Drawing.Point(0, 0);
             this.lvCopiedText.Name = "lvCopiedText";
-            this.lvCopiedText.Size = new System.Drawing.Size(582, 340);
+            this.lvCopiedText.Size = new System.Drawing.Size(560, 340);
             this.lvCopiedText.TabIndex = 1;
             this.lvCopiedText.UseCompatibleStateImageBehavior = false;
             this.lvCopiedText.View = System.Windows.Forms.View.Details;
@@ -291,12 +283,36 @@
             // chText
             // 
             this.chText.Text = "Copied Text";
-            this.chText.Width = 440;
+            this.chText.Width = 520;
             // 
             // chDate
             // 
             this.chDate.Text = "Date of Copy";
-            this.chDate.Width = 220;
+            this.chDate.Width = 150;
+            // 
+            // lvImageFiles
+            // 
+            this.lvImageFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chImageFile});
+            this.lvImageFiles.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lvImageFiles.Font = new System.Drawing.Font("Century Gothic", 7F);
+            this.lvImageFiles.FullRowSelect = true;
+            this.lvImageFiles.Location = new System.Drawing.Point(560, 0);
+            this.lvImageFiles.Name = "lvImageFiles";
+            this.lvImageFiles.Size = new System.Drawing.Size(144, 442);
+            this.lvImageFiles.TabIndex = 1;
+            this.lvImageFiles.UseCompatibleStateImageBehavior = false;
+            this.lvImageFiles.View = System.Windows.Forms.View.Details;
+            this.lvImageFiles.SelectedIndexChanged += new System.EventHandler(this.lvImageFiles_SelectedIndexChanged);
+            this.lvImageFiles.DoubleClick += new System.EventHandler(this.lvImageFiles_DoubleClick);
+            this.lvImageFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvImageFiles_KeyDown);
+            this.lvImageFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvImageFiles_KeyUp);
+            this.lvImageFiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvImageFiles_MouseClick);
+            // 
+            // chImageFile
+            // 
+            this.chImageFile.Text = "Image";
+            this.chImageFile.Width = 120;
             // 
             // UCHistory
             // 
@@ -343,5 +359,6 @@
         private System.Windows.Forms.ListView lvCopiedText;
         private System.Windows.Forms.ColumnHeader chText;
         private System.Windows.Forms.ColumnHeader chDate;
+        private System.Windows.Forms.TextBox tbSearch;
     }
 }

@@ -197,6 +197,9 @@
     <None Include="Resources\NewClipboardWatcher.png" />
     <Content Include="NewClipboardWatcher.ico" />
     <None Include="Resources\if_URL_History-64_32125.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\SearchIcon.png" />
+    <None Include="Resources\SearchIcon2.png" />
     <Content Include="x64\SQLite.Interop.dll" />
     <Content Include="x86\SQLite.Interop.dll" />
     <None Include="Resources\textWhite.png" />
