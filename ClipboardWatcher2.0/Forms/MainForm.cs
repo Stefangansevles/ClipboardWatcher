@@ -41,6 +41,8 @@ namespace ClipboardWatcher
         {
             InitializeComponent();
             _clipboardViewerNext = SetClipboardViewer(this.Handle);      // Adds our form to the chain
+
+            //Set the data directory of our .db file
             AppDomain.CurrentDomain.SetData("DataDirectory", IOVariables.databaseFile);
 
             Directory.CreateDirectory(IOVariables.clipboardWatcherLocalFolder);
@@ -56,8 +58,10 @@ namespace ClipboardWatcher
             ucHistory = new UCHistory();
             ucSettings = new UCSettings();
 
-            //Set the data directory of our .db file
             
+            //Delete empty folders in /images and /text
+            BLIO.DeleteEmptyDirectories(BLSettings.Settings.SaveImagePath);
+            BLIO.DeleteEmptyDirectories(BLSettings.Settings.SaveTextPath);
 
             TrayContextMenuStrip.Renderer = new ToolStripMenuRenderer();
             this.Opacity = 0;        
@@ -111,9 +115,7 @@ namespace ClipboardWatcher
             if (!File.Exists(IOVariables.startupFolderPath + "\\ClipboardWatcher" + ".lnk"))
                 FSManager.Shortcuts.CreateShortcut(IOVariables.startupFolderPath, "ClipboardWatcher", Application.StartupPath + "\\" + "ClipboardWatcher.exe", "Shortcut of ClipboardWatcher");
 
-            lblVersion.Text = "Version " + IOVariables.ClipboardWatcherVersion;
-
-            //Todo:  go through image folders, empty? delete
+            lblVersion.Text = "Version " + IOVariables.ClipboardWatcherVersion;                        
         }
 
         private void btnImages_Click(object sender, EventArgs e)

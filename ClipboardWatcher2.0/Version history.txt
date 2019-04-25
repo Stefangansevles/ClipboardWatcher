@@ -2,6 +2,11 @@
 
 V1.0.1 - 7-4-2019 
 Small first use fixes & Error log writing
+
 V1.0.2 - 16-4-2019
 Fixed a small issue with selecting dates from the history screen.
 The history screen (images) now has a search box, allowing you to search through all of your copied images over time
+
+V1.0.3 - x-x-x
+On startup, ClipboardWatcher now deletes empty image/text directories
+The image searching option within ClipboardWatcher now is no longer case-sensitive

@@ -331,7 +331,7 @@ namespace ClipboardWatcher
 
             foreach(string file in imageFiles)
             {
-                if (Path.GetFileName(file).Contains(image))
+                if (Path.GetFileName(file).ToLower().Contains(image.ToLower()))
                 {
                     returnList.Add(file);
                 }

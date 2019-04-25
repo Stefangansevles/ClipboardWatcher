@@ -1,11 +1,7 @@
 ﻿using ClipboardWatcher;
 using Data_Access_Layer;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer
 {
@@ -52,6 +48,15 @@ namespace Business_Logic_Layer
             }
 
 
+        }
+
+        public static void DeleteEmptyDirectories(string path)
+        {
+            foreach (string directory in Directory.GetDirectories(path,"*",SearchOption.AllDirectories))
+            {
+                if (Directory.GetFileSystemEntries(directory).Length == 0)
+                    Directory.Delete(directory, false);                
+            }
         }
     }
 }
